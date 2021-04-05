@@ -16,26 +16,29 @@ public class SynchronousQueueDemo {
 
 
         new Thread(() -> {
-            for (int i = 1; i <= 3; i++) {
-                String value = String.valueOf(i);
-                try {
-                    log.info("put:{}", value);
-                    queue.put(value);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                log.info("put:{}", "1");
+                queue.put("1");
+                log.info("put:{}", "2");
+                queue.put("2");
+                log.info("put:{}", "3");
+                queue.put("3");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }, "put").start();
 
         TimeUnit.SECONDS.sleep(1);
         new Thread(() -> {
-            for (int i = 1; i <= 3; i++) {
-                try {
-                    TimeUnit.SECONDS.sleep(2);
-                    log.info("take:{}", queue.take());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                TimeUnit.SECONDS.sleep(2);
+                log.info("take:{}", queue.take());
+                TimeUnit.SECONDS.sleep(2);
+                log.info("take:{}", queue.take());
+                TimeUnit.SECONDS.sleep(2);
+                log.info("take:{}", queue.take());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }, "take").start();
     }
